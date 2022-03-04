@@ -1,3 +1,4 @@
+# ROAR ROS2 Transforms Publisher Package
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
@@ -22,64 +23,64 @@
 <!-- ABOUT THE Package -->
 ## About The Package
 
-This is a package that publishes the transform from the odometry frame to the iphone_link frame for the ROAR platform. 
-
+This is a package that publishes the transform from the iphone_odom frame to the iphone_link frame for the ROAR platform.
+It also publishes a static transform from the odom frame to the iphone_odom frame to fix convention discrepencies between the iphone convention and the ros convention.
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
 To get a local copy up and running follow these simple steps.
 
-### Prerequisites
+### A. Prerequisites
 
-It is assumed that your system(s) is running Ubuntu 20.04 and has a working installation of ROS2 (Foxy). This repo has not been tested on other linux distributions.
+It is assumed that your system(s) is running Ubuntu 20.04 and has a working installation of ROS2 (Foxy). This repo has not been tested on other Operating Systems.
 
 Please follow instructions on how to install [ROS Foxy](https://docs.ros.org/en/foxy/Installation.html)
 
 
 
-### Installation
+### B. Installation
 
-TODO
-
-<!-- 1. Make a ROS workspace if not done already.
+1. Install the [ros_roar_streamer](https://github.com/amansrf/ros_roar_streamer/tree/ros2-foxy) package first. Make sure to install the ros2-foxy branch.
+2. Clone the repository and its dependencies in the src directory of the workspace where the ros_roar_streamer was installed.
     ```bash
-    mkdir -p ~/catkin_ws/src
-    cd ~/catkin_ws/src
+    git clone https://github.com/amansrf/roar_transforms.git
     ```
-
-2. Clone the repository and its dependencies
+3. Install required ROS packages from inside the workspace root.
     ```bash
-    git clone https://github.com/amansrf/ros_roar_streamer.git
-    ```
-3. Install required ROS packages
-    ```bash
-    cd ~/catkin_ws
     sudo apt-get update
     sudo rosdep init
     rosdep update
-    rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+    rosdep install -i --from-path src --rosdistro foxy -y
     ```
-4. Create a virtual environment and install python packages 
+4. Install required python packages 
     ```bash
-    virtualenv venv -p python3
-    source ~/catkin_ws/venv/bin/activate
-    pip install -r ~/catkin_ws/src/ros_roar_streamer/${ROS_DISTRO}_requirements.txt
+    pip install -r <Workspace Directory Here>/src/roar_transforms/requirements.txt
     ```
 5. Build all the packages and source the workspace
     ```bash
-    catkin_make
-    source ~/catkin_ws/devel/setup.bash
-    ``` -->
+    cd <Workspace Directory Here>
+    colcon build --symlink-install
+    source <Workspace Directory Here>/install/setup.bash
+    ```
 
 <!-- LICENSE -->
 <!-- ## License
 Distributed under the MIT License. See `LICENSE` for more information. -->
 
 <!-- USAGE -->
-## USAGE
+## Usage
 
-TODO
+1. Launch the iphone app and calibrate it with world centre.
+2. Follow instructions in the ros_roar_streamer package usage and then run the state_streamer node:
+    ```bash
+    ros2 run ros_roar_streamer state_streamer
+    ```
+3. Run this package in a new terminal
+    ```bash
+    source <Workspace Directory Here>/install/setup.bash
+    ros2 launch roar_transforms roar_tf.launch.py
+    ```
 
 <!-- CONTACT -->
 ## Contact
